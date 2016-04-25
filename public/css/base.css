@@ -6,6 +6,7 @@ body {
   margin: 0;
   padding: 30px;
 }
+
 .Field {
   width: 100px;
   height: 100px;
@@ -13,8 +14,16 @@ body {
   margin: 1px;
   display: inline-block;
 }
+
 .Board {
-  margin: 0 auto;
   width: 100%;
   padding: 0 auto;
+}
+
+.navigation .octicon {
+  text-align: center;
+}
+
+.mega-octicon {
+  font-size: 72px;
 }

@@ -1,6 +1,6 @@
 var Board = React.createClass({
   getInitialState: function(){
-    return {data: ''}
+    return {data: ''};
   },
   loadGame: function(){
     $.ajax({
@@ -15,7 +15,6 @@ var Board = React.createClass({
     });
   },
   render: function() {
-    this.loadGame();
     console.log(this.state.data);
     var rows = [];
     for (var i=0; i < 4; i++) {
@@ -26,7 +25,7 @@ var Board = React.createClass({
     };
     return (
       React.createElement('div', {className: "Board"},
-        rows
+        <a href="#" onClick={this.loadGame}>New Game</a>, <br/>, rows
       )
     )
   }

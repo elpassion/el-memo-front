@@ -1,6 +1,7 @@
 var Board = React.createClass({
   getInitialState: function(){
-    return {data: ''};
+    this.loadGame();
+    return {data: []};
   },
   loadGame: function(){
     $.ajax({
@@ -16,26 +17,32 @@ var Board = React.createClass({
   },
   render: function() {
     console.log(this.state.data);
-    var rows = [];
-    for (var i=0; i < 4; i++) {
-      for (var j=0; j < 4; j++) {
-        rows.push(<Field key={i+''+j} value={i+' '+j}></Field>);
+    var board = this.state.data;
+    var fields = [];
+    if(board.length > 0){
+      for (var i = 0 ; i < 4; i++) {
+        for (var j=0; j < 4; j++) {
+          fields.push(<Field key={i+''+j} value={board[i * 4 + j].value} id={i * 4 + j}></Field>);
+        };
+        fields.push(React.createElement('br', {key: i}))
       };
-      rows.push(React.createElement('br', {key: i}))
-    };
+    }
     return (
       React.createElement('div', {className: "Board"},
-        <a href="#" onClick={this.loadGame}>New Game</a>, <br/>, rows
+        <a href="#" onClick={this.loadGame}>New Game</a>, <br/>, fields
       )
     )
   }
 });
 
 var Field = React.createClass({
-  handleClick: function() {
-    console.log(this.props.value);
+  getInitialState: function(){
+    return {id: '', value: ''}
   },
-  postFileld: function(){
+  handleClick: function() {
+    console.log(this.props.id);
+  },
+  postField: function(){
     $.ajax({
       url: 'http://elmemo-backend.herokuapp.com/game/' + game_id + '?field=' + field_id,
       dataType: 'json',
@@ -54,9 +61,6 @@ var Field = React.createClass({
         this.props.value
       )
     );
-  },
-  getInitialState: function(){
-    return {value: ''}
   }
 });
 

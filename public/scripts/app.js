@@ -1,13 +1,17 @@
 var Board = React.createClass({
   getInitialState: function(){
     this.createGame();
-    return {data: []};
+    return {
+        data: [],
+        gameUrl: ''
+    };
   },
   createGame: function(){
     $.ajax({
       url: 'http://elmemo-backend.herokuapp.com/new/',
       dataType: 'json',
       success: function(data) {
+        this.setState({gameUrl: data.game})
         this.loadGame(data.game)
       }.bind(this),
       error: function(xhr, status, err) {
@@ -34,7 +38,8 @@ var Board = React.createClass({
     if(board.length > 0){
       for (var i = 0 ; i < 4; i++) {
         for (var j=0; j < 4; j++) {
-          fields.push(<Field key={i+''+j} value={board[i * 4 + j].value} id={i * 4 + j}></Field>);
+          var fieldFromApi = board[i * 4 + j]
+          fields.push(<Field key={fieldFromApi.id} value={fieldFromApi.value} id={fieldFromApi.id} gameUrl={this.state.gameUrl}></Field>);
         };
         fields.push(React.createElement('br', {key: i}))
       };
@@ -49,18 +54,14 @@ var Board = React.createClass({
 
 var Field = React.createClass({
   getInitialState: function(){
-    return {id: '', value: ''}
+    return {id: '', value: '', gameUrl: ''}
   },
   handleClick: function() {
-    console.log(this.props.id);
-  },
-  postField: function(){
     $.ajax({
-      url: 'http://elmemo-backend.herokuapp.com/game/' + game_id + '?field=' + field_id,
+      url: this.props.gameUrl + '?field1=' + this.props.id,
       dataType: 'json',
-      type: 'POST',
       success: function(data) {
-        this.setState({data: data});
+        this.props.value = '123';
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(status, err.toString());

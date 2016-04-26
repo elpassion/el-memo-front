@@ -1,19 +1,31 @@
 var Board = React.createClass({
   getInitialState: function(){
-    this.loadGame();
+    this.createGame();
     return {data: []};
   },
-  loadGame: function(){
+  createGame: function(){
     $.ajax({
       url: 'http://elmemo-backend.herokuapp.com/new/',
       dataType: 'json',
       success: function(data) {
-        this.setState({data: data});
+        this.loadGame(data.game)
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(status, err.toString());
       }.bind(this)
     });
+  },
+  loadGame: function(gameUrl){
+    $.ajax({
+          url: gameUrl,
+          dataType: 'json',
+          success: function(data) {
+            this.setState({data: data});
+          }.bind(this),
+          error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }.bind(this)
+        });
   },
   render: function() {
     console.log(this.state.data);
@@ -29,7 +41,7 @@ var Board = React.createClass({
     }
     return (
       React.createElement('div', {className: "Board"},
-        <a href="#" onClick={this.loadGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>
+        <a href="#" onClick={this.createGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>
       )
     )
   }

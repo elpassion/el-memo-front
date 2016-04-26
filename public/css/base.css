@@ -20,8 +20,16 @@ body {
   font-size: 24px;
 }
 
-#newGameLink{
-  font-size: 20px;
+.button-link {
+  background-image: url('/images/button.png');
+  width: 190px;
+  height: 40px;
+  background-repeat: no-repeat;
+  margin-left: 110px;
+}
+
+.button-link:hover {
+  background-image: url('/images/button_hover.png');
 }
 
 #content {

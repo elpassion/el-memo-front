@@ -63,7 +63,7 @@ var Board = React.createClass({
     }
     return (
       React.createElement('div', {className: "Board"},
-        <a href="#" id="newGameLink" onClick={this.createGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>, <Status value={this.state.is_won ? "You won! :)" : ""}/>
+        <a href="#" id="newGameLink" onClick={this.createGame}><div className="button-link"></div></a>, <br/>, <div className="fields">{fields}</div>, <Status value={this.state.is_won ? "You won! :)" : ""}/>
       )
     )
   },

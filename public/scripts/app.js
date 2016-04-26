@@ -5,7 +5,8 @@ var Board = React.createClass({
         data: [],
         gameUrl: '',
         field1: '',
-        field2: ''
+        field2: '',
+        is_won: false
     };
   },
   createGame: function(){
@@ -13,7 +14,7 @@ var Board = React.createClass({
       url: 'http://elmemo-backend.herokuapp.com/new/',
       dataType: 'json',
       success: function(data) {
-        this.setState({gameUrl: data.game})
+        this.setState({gameUrl: data.game, is_won: false});
         this.loadGame(data.game)
       }.bind(this),
       error: function(xhr, status, err) {
@@ -23,15 +24,15 @@ var Board = React.createClass({
   },
   loadGame: function(gameUrl){
     $.ajax({
-          url: gameUrl,
-          dataType: 'json',
-          success: function(data) {
-            this.setState({data: data.fields});
-          }.bind(this),
-          error: function(xhr, status, err) {
-            console.error(status, err.toString());
-          }.bind(this)
-        });
+      url: gameUrl,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data: data.fields});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(status, err.toString());
+      }.bind(this)
+    });
   },
   render: function() {
     var board = this.state.data;
@@ -51,7 +52,7 @@ var Board = React.createClass({
     }
     return (
       React.createElement('div', {className: "Board"},
-        <a href="#" onClick={this.createGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>
+        <a href="#" id="newGameLink" onClick={this.createGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>, <Status value={this.state.is_won ? "You won! :)" : ""}/>
       )
     )
   },
@@ -66,15 +67,21 @@ var Board = React.createClass({
   },
   revealField : function(field1, field2){
     $.ajax({
-        url: this.state.gameUrl + '?field1=' + field1 + "&field2=" + field2,
-        dataType: 'json',
-        success: function(data) {
-          this.setState({data: data.fields})
-        }.bind(this),
-        error: function(xhr, status, err) {
-          console.error(status, err.toString());
-        }.bind(this)
-      });
+      url: this.state.gameUrl + '?field1=' + field1 + "&field2=" + field2,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data: data.fields, is_won: data["is_won?"]})
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(status, err.toString());
+      }.bind(this)
+    });
+  }
+});
+
+var Status = React.createClass({
+  render: function(){
+    return React.createElement('div', {className: "Status"}, this.props.value)
   }
 });
 

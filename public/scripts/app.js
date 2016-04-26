@@ -7,7 +7,17 @@ var Board = React.createClass({
         field1: '',
         field2: '',
         is_won: false,
-        gameTimeout: ''
+        gameTimeout: '',
+        icons: [
+          <img src="images/memo_03.png"></img>,
+          <img src="images/memo_05.png"></img>,
+          <img src="images/memo_07.png"></img>,
+          <img src="images/memo_09.png"></img>,
+          <img src="images/memo_11.png"></img>,
+          <img src="images/memo_13.png"></img>,
+          <img src="images/memo_15.png"></img>,
+          <img src="images/memo_17.png"></img>
+        ]
     };
   },
   createGame: function(){
@@ -43,7 +53,7 @@ var Board = React.createClass({
         for (var j=0; j < 4; j++) {
           var fieldFromApi = board[i * 4 + j]
           fields.push(<Field key={fieldFromApi.id}
-                              value={fieldFromApi.value}
+                              value={this.state.icons[fieldFromApi.value]}
                               id={fieldFromApi.id}
                               func={function(id) { this.onFieldClick(id) }.bind(this) }
                               ></Field>);

@@ -1,6 +1,5 @@
 var Board = React.createClass({
   getInitialState: function(){
-    this.createGame();
     return {
         data: [],
         gameUrl: '',

@@ -26,7 +26,7 @@ var Board = React.createClass({
           url: gameUrl,
           dataType: 'json',
           success: function(data) {
-            this.setState({data: data});
+            this.setState({data: data.fields});
           }.bind(this),
           error: function(xhr, status, err) {
             console.error(status, err.toString());
@@ -69,7 +69,7 @@ var Board = React.createClass({
         url: this.state.gameUrl + '?field1=' + field1 + "&field2=" + field2,
         dataType: 'json',
         success: function(data) {
-          this.setState({data: data})
+          this.setState({data: data.fields})
         }.bind(this),
         error: function(xhr, status, err) {
           console.error(status, err.toString());

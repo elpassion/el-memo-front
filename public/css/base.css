@@ -11,14 +11,12 @@ body {
   z-index: 0;
 
   display: block;
-  background-image: url('/images/wallpaper.jpg');
+  background-image: url('/images/bg.png');
   width: 100%;
   height: 100%;
   overflow: hidden;
   background-size: cover;
   background-position: center;
-
-  -webkit-filter: blur(3px);
 }
 
 .page-container {
@@ -30,12 +28,26 @@ body {
   margin-right: 20px;
 }
 
+.header {
+  text-align: center;
+  margin-right: 42px;
+}
+
+.logo {
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
 .Field {
   width: 100px;
   height: 100px;
   margin: 0 1px 0 1px;
   display: inline-block;
   background-image: url('/images/rewers.png')
+}
+
+.Field:hover {
+  background-image: url('/images/rewers_hover.png')
 }
 
 .Status {
@@ -46,19 +58,20 @@ body {
 }
 
 .button-link {
-  background-image: url('/images/button.png');
+  background-image: url('/images/button_hover.png');
   width: 190px;
   height: 40px;
   background-repeat: no-repeat;
   margin-left: 110px;
+  padding-bottom: 35px;
 }
 
 .button-link:hover {
-  background-image: url('/images/button_hover.png');
+  background-image: url('/images/button.png');
 }
 
 #content {
-  padding: 30px;
+  padding: 45px;
   width: 450px;
   margin: 0 auto;
 }

@@ -6,7 +6,8 @@ var Board = React.createClass({
         gameUrl: '',
         field1: '',
         field2: '',
-        is_won: false
+        is_won: false,
+        gameTimeout: ''
     };
   },
   createGame: function(){
@@ -64,6 +65,9 @@ var Board = React.createClass({
      } else {
         this.setState({field1: fieldId, field2: ''}, this.revealField(fieldId, ''));
      }
+     clearTimeout(this.state.gameTimeout)
+     var gameTimeout = setTimeout(function(){this.hideFields()}.bind(this), 1500);
+     this.setState({gameTimeout: gameTimeout})
   },
   revealField : function(field1, field2){
     $.ajax({
@@ -76,6 +80,9 @@ var Board = React.createClass({
         console.error(status, err.toString());
       }.bind(this)
     });
+  },
+  hideFields: function(){
+    this.setState({field1: '', field2: ''}, this.revealField('', ''));
   }
 });
 

@@ -39,7 +39,12 @@ var Board = React.createClass({
       for (var i = 0 ; i < 4; i++) {
         for (var j=0; j < 4; j++) {
           var fieldFromApi = board[i * 4 + j]
-          fields.push(<Field key={fieldFromApi.id} value={fieldFromApi.value} id={fieldFromApi.id} gameUrl={this.state.gameUrl}></Field>);
+          fields.push(<Field key={fieldFromApi.id}
+                              value={fieldFromApi.value}
+                              id={fieldFromApi.id}
+                              gameUrl={this.state.gameUrl}
+                              func={function(arg){this.setState({data: arg})}.bind(this)}
+                              ></Field>);
         };
         fields.push(React.createElement('br', {key: i}))
       };
@@ -54,14 +59,14 @@ var Board = React.createClass({
 
 var Field = React.createClass({
   getInitialState: function(){
-    return {id: '', value: '', gameUrl: ''}
+    return {id: '', value: '', gameUrl: '', func: ''}
   },
   handleClick: function() {
     $.ajax({
       url: this.props.gameUrl + '?field1=' + this.props.id,
       dataType: 'json',
       success: function(data) {
-        this.props.value = '123';
+        this.props.func(data);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(status, err.toString());

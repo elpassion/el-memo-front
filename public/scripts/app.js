@@ -3,7 +3,9 @@ var Board = React.createClass({
     this.createGame();
     return {
         data: [],
-        gameUrl: ''
+        gameUrl: '',
+        field1: '',
+        field2: ''
     };
   },
   createGame: function(){
@@ -32,7 +34,6 @@ var Board = React.createClass({
         });
   },
   render: function() {
-    console.log(this.state.data);
     var board = this.state.data;
     var fields = [];
     if(board.length > 0){
@@ -42,8 +43,7 @@ var Board = React.createClass({
           fields.push(<Field key={fieldFromApi.id}
                               value={fieldFromApi.value}
                               id={fieldFromApi.id}
-                              gameUrl={this.state.gameUrl}
-                              func={function(arg){this.setState({data: arg})}.bind(this)}
+                              func={function() { this.onFieldClick(fieldFromApi.id) }.bind(this) }
                               ></Field>);
         };
         fields.push(React.createElement('br', {key: i}))
@@ -54,24 +54,36 @@ var Board = React.createClass({
         <a href="#" onClick={this.createGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>
       )
     )
+  },
+  onFieldClick: function(fieldId) {
+    if(this.state.field1 != '' && this.state.field2 != ''){
+        this.setState({field1: field1, field2: ''}, this.revealField(fieldId, ''));
+    }else if(this.state.field1 == ''){
+        this.setState({field1: fieldId}, this.revealField(fieldId, ''));
+    }else {
+        this.setState({field2: fieldId}, this.revealField(this.state.field1, fieldId));
+    }
+  },
+  revealField : function(field1, field2){
+    $.ajax({
+        url: this.state.gameUrl + '?field1=' + field1 + "&field2=" + field2,
+        dataType: 'json',
+        success: function(data) {
+          this.setState({data: data})
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(status, err.toString());
+        }.bind(this)
+      });
   }
 });
 
 var Field = React.createClass({
   getInitialState: function(){
-    return {id: '', value: '', gameUrl: '', func: ''}
+    return {id: '', value: '', func: ''}
   },
   handleClick: function() {
-    $.ajax({
-      url: this.props.gameUrl + '?field1=' + this.props.id,
-      dataType: 'json',
-      success: function(data) {
-        this.props.func(data);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(status, err.toString());
-      }.bind(this)
-    });
+    this.props.func();
   },
   render: function() {
     return (

@@ -43,7 +43,7 @@ var Board = React.createClass({
           fields.push(<Field key={fieldFromApi.id}
                               value={fieldFromApi.value}
                               id={fieldFromApi.id}
-                              func={function() { this.onFieldClick(fieldFromApi.id) }.bind(this) }
+                              func={function(id) { this.onFieldClick(id) }.bind(this) }
                               ></Field>);
         };
         fields.push(React.createElement('br', {key: i}))
@@ -56,13 +56,13 @@ var Board = React.createClass({
     )
   },
   onFieldClick: function(fieldId) {
-    if(this.state.field1 != '' && this.state.field2 != ''){
-        this.setState({field1: field1, field2: ''}, this.revealField(fieldId, ''));
-    }else if(this.state.field1 == ''){
+     if(this.state.field1 == '') {
         this.setState({field1: fieldId}, this.revealField(fieldId, ''));
-    }else {
+     } else if(this.state.field2 == '') {
         this.setState({field2: fieldId}, this.revealField(this.state.field1, fieldId));
-    }
+     } else {
+        this.setState({field1: fieldId, field2: ''}, this.revealField(fieldId, ''));
+     }
   },
   revealField : function(field1, field2){
     $.ajax({
@@ -83,7 +83,7 @@ var Field = React.createClass({
     return {id: '', value: '', func: ''}
   },
   handleClick: function() {
-    this.props.func();
+    this.props.func(this.props.id);
   },
   render: function() {
     return (

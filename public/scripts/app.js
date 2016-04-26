@@ -29,7 +29,7 @@ var Board = React.createClass({
     }
     return (
       React.createElement('div', {className: "Board"},
-        <a href="#" onClick={this.loadGame}>New Game</a>, <br/>, fields
+        <a href="#" onClick={this.loadGame}>New Game</a>, <br/>, <div className="fields">{fields}</div>
       )
     )
   }
